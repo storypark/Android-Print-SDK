@@ -1404,50 +1404,49 @@ public class KiteSDK
    *****************************************************/
   public void chooseAndLockCurrency( Catalogue catalogue )
     {
-    try
-      {
-      Locale   defaultLocale   = Locale.getDefault();
-      Currency defaultCurrency = Currency.getInstance( defaultLocale );
-
-      if ( defaultCurrency != null )
-        {
-        List<String> payPalSupportedCurrencyCodeList = catalogue.getPayPalSupportedCurrencyCodes();
-
-
-        // 1. Template response, look at paypal_supported_currencies = …
-        // 2. Do I have Paypal or Stripe as CC processor. If Stripe no currency lockdown, if paypal I exclude displaying in a currency that is not supported
-        // 3. If Stripe : Display in local currency  , If Paypal : Display in local currency unless not paypal supported then USD / Fallback
-        // 4. In payment screen, show Pay by Paypal if currency being displayed is in paypal_supported_currencies
-
-
-        // Work out what currency we are going to lock to
-
-        String lockedCurrencyCode;
-
-        if ( getCustomiser().getCreditCardAgent().usesPayPal() )
-          {
-          ///// PayPal /////
-
-          lockedCurrencyCode = chooseBestCurrency( defaultCurrency.getCurrencyCode(), MultipleCurrencyAmounts.FALLBACK_CURRENCY_CODES, payPalSupportedCurrencyCodeList );
-
-          setSDKParameter( Scope.APP_SESSION, PARAMETER_NAME_PAYPAL_PAYMENTS_AVAILABLE, true );
-          }
-        else
-          {
-          ///// Stripe /////
-
-          lockedCurrencyCode = defaultCurrency.getCurrencyCode();
-
-          // PayPal payments are only available if the locked currency code is a PayPal supported currency.
-          setSDKParameter( Scope.APP_SESSION, PARAMETER_NAME_PAYPAL_PAYMENTS_AVAILABLE, payPalSupportedCurrencyCodeList.contains( lockedCurrencyCode ) );
-          }
-
-
-        setSDKParameter( Scope.APP_SESSION, PARAMETER_NAME_LOCKED_CURRENCY_CODE, lockedCurrencyCode );
-        }
-      }
-    catch ( Exception e )
-      {
+//    try
+//      {
+//      Currency defaultCurrency = Currency.getInstance(Locale.US);
+//
+//      if ( defaultCurrency != null )
+//        {
+//        List<String> payPalSupportedCurrencyCodeList = catalogue.getPayPalSupportedCurrencyCodes();
+//
+//
+//        // 1. Template response, look at paypal_supported_currencies = …
+//        // 2. Do I have Paypal or Stripe as CC processor. If Stripe no currency lockdown, if paypal I exclude displaying in a currency that is not supported
+//        // 3. If Stripe : Display in local currency  , If Paypal : Display in local currency unless not paypal supported then USD / Fallback
+//        // 4. In payment screen, show Pay by Paypal if currency being displayed is in paypal_supported_currencies
+//
+//
+//        // Work out what currency we are going to lock to
+//
+//        String lockedCurrencyCode;
+//
+//        if ( getCustomiser().getCreditCardAgent().usesPayPal() )
+//          {
+//          ///// PayPal /////
+//
+//          lockedCurrencyCode = chooseBestCurrency( defaultCurrency.getCurrencyCode(), MultipleCurrencyAmounts.FALLBACK_CURRENCY_CODES, payPalSupportedCurrencyCodeList );
+//
+//          setSDKParameter( Scope.APP_SESSION, PARAMETER_NAME_PAYPAL_PAYMENTS_AVAILABLE, true );
+//          }
+//        else
+//          {
+//          ///// Stripe /////
+//
+//          lockedCurrencyCode = defaultCurrency.getCurrencyCode();
+//
+//          // PayPal payments are only available if the locked currency code is a PayPal supported currency.
+//          setSDKParameter( Scope.APP_SESSION, PARAMETER_NAME_PAYPAL_PAYMENTS_AVAILABLE, payPalSupportedCurrencyCodeList.contains( lockedCurrencyCode ) );
+//          }
+//
+//
+//        setSDKParameter( Scope.APP_SESSION, PARAMETER_NAME_LOCKED_CURRENCY_CODE, lockedCurrencyCode );
+//        }
+//      }
+//    catch ( Exception e )
+//      {
 
       // This may happen if there's a problem with the locale:
       //   - There is no locale
@@ -1457,8 +1456,8 @@ public class KiteSDK
         Currency currency = Currency.getInstance(Locale.US);
         setSDKParameter( Scope.APP_SESSION, PARAMETER_NAME_LOCKED_CURRENCY_CODE, currency.getCurrencyCode() );
 
-      Log.e( LOG_TAG, "Unable to determine default currency", e );
-      }
+//      Log.e( LOG_TAG, "Unable to determine default currency", e );
+//      }
     }
 
 
