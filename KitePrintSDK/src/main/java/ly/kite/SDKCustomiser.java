@@ -42,13 +42,14 @@ package ly.kite;
 import android.content.Context;
 import android.view.Gravity;
 
+import java.util.Currency;
+
 import ly.kite.analytics.IAnalyticsEventCallback;
 import ly.kite.analytics.NullAnalyticsEventCallback;
 import ly.kite.checkout.APaymentFragment;
 import ly.kite.checkout.AShippingActivity;
 import ly.kite.checkout.DefaultPaymentFragment;
 import ly.kite.checkout.ICreditCardAgent;
-import ly.kite.checkout.IOrderSubmissionResultListener;
 import ly.kite.checkout.ShippingActivity;
 import ly.kite.checkout.StripeCreditCardAgent;
 import ly.kite.facebookphotopicker.FacebookImageSource;
@@ -57,7 +58,6 @@ import ly.kite.journey.AImageSource;
 import ly.kite.journey.DeviceImageSource;
 import ly.kite.journey.creation.ICustomImageEditorAgent;
 import ly.kite.ordering.IOrderSubmissionSuccessListener;
-import ly.kite.ordering.Order;
 
 
 ///// Class Declaration /////
@@ -279,6 +279,16 @@ public class SDKCustomiser
     return ( null );
     }
 
+  /*****************************************************
+   *
+   * Returns a currency to force the SDK to work in
+   * The default is null, i.e. infer from the device's locale.
+   *
+   *****************************************************/
+  public Currency getSDKCurrency()
+  {
+    return ( null );
+  }
 
   ////////// Inner Class(es) //////////
 

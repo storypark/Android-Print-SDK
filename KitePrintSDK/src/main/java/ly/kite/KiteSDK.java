@@ -39,16 +39,6 @@ package ly.kite;
 
 ///// Import(s) /////
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Currency;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.UUID;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -60,25 +50,31 @@ import android.util.Log;
 
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.UUID;
+
 import ly.kite.address.Address;
 import ly.kite.address.Country;
 import ly.kite.catalogue.Catalogue;
-import ly.kite.catalogue.MultipleCurrencyAmounts;
-import ly.kite.catalogue.Product;
-import ly.kite.journey.AKiteActivity;
-import ly.kite.journey.ordering.OrderHistoryActivity;
-import ly.kite.ordering.OrderingDataAgent;
 import ly.kite.catalogue.CatalogueLoader;
+import ly.kite.catalogue.MultipleCurrencyAmounts;
 import ly.kite.checkout.PaymentActivity;
+import ly.kite.image.ImageAgent;
+import ly.kite.journey.AImageSource;
 import ly.kite.journey.basket.BasketActivity;
+import ly.kite.journey.ordering.OrderHistoryActivity;
+import ly.kite.journey.selection.ProductSelectionActivity;
 import ly.kite.ordering.Order;
-import ly.kite.ordering.OrderingDatabaseAgent;
+import ly.kite.ordering.OrderingDataAgent;
 import ly.kite.payment.PayPalCard;
 import ly.kite.util.Asset;
-import ly.kite.journey.AImageSource;
-import ly.kite.journey.selection.ProductSelectionActivity;
 import ly.kite.util.AssetHelper;
-import ly.kite.image.ImageAgent;
 
 
 ///// Class Declaration /////
@@ -1404,6 +1400,19 @@ public class KiteSDK
    *****************************************************/
   public void chooseAndLockCurrency( Catalogue catalogue )
     {
+
+    // If the SDKCustomiser is trying to force a currency, use that and disable PayPal
+    final SDKCustomiser customiser = getCustomiser();
+    final Currency forcedCurrency = customiser.getSDKCurrency();
+    if (forcedCurrency != null) {
+      setSDKParameter(
+              Scope.APP_SESSION,
+              PARAMETER_NAME_LOCKED_CURRENCY_CODE,
+              forcedCurrency.getCurrencyCode());
+      Log.i(LOG_TAG, "SDK forcing currency to " + forcedCurrency.getCurrencyCode());
+      return;
+    }
+
     try
       {
       Locale   defaultLocale   = Locale.getDefault();
