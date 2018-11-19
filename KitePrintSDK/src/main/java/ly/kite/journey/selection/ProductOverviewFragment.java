@@ -591,7 +591,7 @@ public class ProductOverviewFragment extends AProductSelectionFragment implement
     Country                          country          = Country.getInstance( locale );
 
 
-    SingleCurrencyAmounts singleCurrencyCost = mProduct.getCostWithFallback( locale );
+    SingleCurrencyAmounts singleCurrencyCost = mProduct.getCostWithFallback( KiteSDK.getInstance(getActivity()).getLockedCurrencyCode() );
 
     if ( singleCurrencyCost != null )
       {

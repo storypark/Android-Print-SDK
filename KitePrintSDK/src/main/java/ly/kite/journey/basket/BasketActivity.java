@@ -760,10 +760,11 @@ public class BasketActivity extends AKiteActivity implements ICatalogueConsumer,
     {
     // Display the shipping & total prices
 
-    mTotalShippingPriceTextView.setText( orderPricing.getTotalShippingCost().getDefaultDisplayAmountWithFallback() );
+    final String lockedCurrencyCode = KiteSDK.getInstance(this).getLockedCurrencyCode();
+    mTotalShippingPriceTextView.setText( orderPricing.getTotalShippingCost().getDefaultDisplayAmountWithFallback(lockedCurrencyCode) );
 
 
-    String displayTotalCost = orderPricing.getTotalCost().getDefaultDisplayAmountWithFallback();
+    String displayTotalCost = orderPricing.getTotalCost().getDefaultDisplayAmountWithFallback(lockedCurrencyCode);
 
     if ( mTotalPriceTextView != null ) mTotalPriceTextView.setText( getString( R.string.kitesdk_Total) + " " + displayTotalCost );
 
