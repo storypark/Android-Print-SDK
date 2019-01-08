@@ -43,7 +43,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -328,30 +327,6 @@ public class SingleCurrencyAmounts implements Parcelable
    *****************************************************/
   private String getDisplayAmountForLocale( double amountAsDouble, Locale locale )
     {
-    if ( locale != null )
-      {
-      // The locale may not be supported by this device.
-      try
-        {
-        // Get the currency used by the locale
-        Currency localeCurrency = Currency.getInstance( locale );
-
-        // If the currency matches the current locale's currency, use the number formatter to
-        // format the amount.
-        if ( mCurrency.equals( localeCurrency ) )
-          {
-          NumberFormat numberFormatter = NumberFormat.getCurrencyInstance( locale );
-
-          return ( numberFormatter.format( amountAsDouble ) );
-          }
-        }
-      catch ( IllegalArgumentException iae )
-        {
-        // Fall through
-        }
-      }
-
-
     // Format the amount formally
     return ( String.format( Locale.getDefault(), FORMAL_AMOUNT_FORMAT_STRING, mCurrency.getCurrencyCode(), amountAsDouble ) );
     }
